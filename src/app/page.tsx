@@ -12,9 +12,11 @@ export default function Home() {
             <p>Card content</p>
           </Card>
         </Link>
-        <Card size="small" title="Small size card" style={{ width: 300 }}>
-          <p>Card content</p>
-        </Card>
+        <Link href="/form">
+          <Card size="small" title="Small size card" style={{ width: 300 }}>
+            <p>Card content</p>
+          </Card>
+        </Link>
       </Space>
     </div>
   );

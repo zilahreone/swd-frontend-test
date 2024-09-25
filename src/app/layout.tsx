@@ -5,12 +5,12 @@ import { Flex, Select } from "antd";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
+  // variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+  // variable: "--font-geist-mono",
   weight: "100 900",
 });
 
@@ -28,8 +28,8 @@ export default function RootLayout({
   // }
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Flex gap="middle" align="end" vertical>
+      <body className={`${geistSans.className} ${geistMono.className}`}>
+        {/* <Flex gap="middle" align="end" vertical>
           <Select
             defaultValue="lucy"
             style={{
@@ -47,7 +47,7 @@ export default function RootLayout({
               },
             ]}
           />
-        </Flex>
+        </Flex> */}
         {children}
       </body>
     </html >

@@ -1,6 +1,7 @@
 "use client";
-import { Card, Col, Divider, Flex, Row } from 'antd';
+import { Badge, Card, Col, Divider, Flex, Row } from 'antd';
 import { useState } from 'react'
+import Navbar from '../components/Navbar';
 
 export default function page() {
   const [count, setCount] = useState(0)
@@ -51,27 +52,43 @@ export default function page() {
   return (
     <div>
       <h2>Layout & Style</h2>
+      <Navbar />
       <div className='content'>
         {/* <Flex gap="middle" align="center" vertical>
           <div>sdsdsd</div>
         </Flex> */}
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <Card hoverable className='hover' onClick={handleLeft}>
+            <Card hoverable bordered={false} className='hover' onClick={handleLeft}>
               <div id='triangle-left' className='center'></div>
+              <Badge
+                className="absolute"
+                count={78}
+                style={{ backgroundColor: '#6EDA78', boxShadow: '0 0 0px'}}
+              />
             </Card>
           </Col>
           <Col span={12}>
-            <Card hoverable className='hover'>
+            <Card hoverable bordered={false} className='hover'>
               <Flex onClick={handleToggle}>
                 <div id='triangle-up' className='center'></div>
                 <div id='triangle-down' className='center'></div>
               </Flex>
+              <Badge
+                className="absolute"
+                count={78}
+                style={{ backgroundColor: '#6EDA78', boxShadow: '0 0 0px'}}
+              />
             </Card>
           </Col>
           <Col span={6}>
-            <Card hoverable className='hover' onClick={handleRight}>
+            <Card hoverable bordered={false} className='hover' onClick={handleRight}>
               <div id='triangle-right' className='center'></div>
+              <Badge
+                className="absolute"
+                count={78}
+                style={{ backgroundColor: '#6EDA78', boxShadow: '0 0 0px'}}
+              />
             </Card>
           </Col>
         </Row>
@@ -94,6 +111,6 @@ export default function page() {
           }
         </Flex>
       </div>
-    </div>
+    </div >
   )
 }

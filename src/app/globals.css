@@ -63,6 +63,21 @@ body {
   /* padding: 10px; */
 }
 
+.absolute {
+  /* margin: -5%; */
+  position: absolute;
+  width: 50%;
+  top: 95%;
+  left: 25%;
+  /* border: none; */
+  /* bottom: 0%;
+  height: 10px; */
+  /* background: yellow; */
+  /* bottom: -5%;
+  left: 0%;
+  /* width: 40%; */
+}
+
 .hover:hover {
   background-color: #ffa200;
 }
