@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Flex, Select } from "antd";
+import StoreProvider from "./StoreProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
-  // variable: "--font-geist-sans",
+  variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
-  // variable: "--font-geist-mono",
+  variable: "--font-geist-mono",
   weight: "100 900",
 });
 
@@ -28,27 +29,10 @@ export default function RootLayout({
   // }
   return (
     <html lang="en">
-      <body className={`${geistSans.className} ${geistMono.className}`}>
-        {/* <Flex gap="middle" align="end" vertical>
-          <Select
-            defaultValue="lucy"
-            style={{
-              width: 120,
-            }}
-            // onChange={handleChange}
-            options={[
-              {
-                value: 'jack',
-                label: 'Jack',
-              },
-              {
-                value: 'lucy',
-                label: 'Lucy',
-              },
-            ]}
-          />
-        </Flex> */}
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <StoreProvider>
+          {children}
+        </StoreProvider>
       </body>
     </html >
   );
