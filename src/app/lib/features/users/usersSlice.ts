@@ -7,6 +7,7 @@ const initialState: any = {
   users: [],
   loading: false,
   value: 0,
+  edit_index: -1,
 };
 
 const userSlice = createSlice({
@@ -39,6 +40,17 @@ const userSlice = createSlice({
       state.users = filter
       localStorage.setItem('swd-user', JSON.stringify(state.users))
     },
+    setEditIndex: (state, action) => {
+      state.edit_index = action.payload
+    },
+    setEditUser: (state, action) => {
+      let users = JSON.parse(JSON.stringify(state.users))
+      // console.log(users);
+      users = users.map((user: any) => user.id === state.edit_index ? action.payload : user)
+      state.users = users
+      localStorage.setItem('swd-user', JSON.stringify(state.users))
+      state.edit_index = -1
+    }
   },
   extraReducers: (builder) => {
     // builder.addCase(fetchUsers.fulfilled, (state, action) => {
@@ -57,5 +69,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { increment, setUser, getUsers, deleteRow } = userSlice.actions;
+export const { increment, setUser, getUsers, deleteRow, setEditIndex, setEditUser } = userSlice.actions;
 export default userSlice.reducer;
