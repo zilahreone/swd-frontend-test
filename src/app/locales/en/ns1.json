@@ -12,7 +12,7 @@
   "test1": {
     "control_label": {
       "move_shape": "Move Shape",
-      "move_position": "Move Shape"
+      "move_position": "Move Position"
     }
   },
   "test2": {

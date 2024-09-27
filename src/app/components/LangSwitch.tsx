@@ -7,7 +7,11 @@ export default function LangSwitch() {
   const { i18n } = useTranslation('ns1');
 
   function handleChange () {
-    i18n.language === 'en' ? i18n.changeLanguage('th') : i18n.changeLanguage('en')
+    if (i18n.language === 'en') {
+      i18n.changeLanguage('th')
+    } else {
+      i18n.changeLanguage('en')
+    }
   }
   return (
     <div>

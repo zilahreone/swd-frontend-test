@@ -1,20 +1,19 @@
 "use client";
-import { Button, Checkbox, Col, DatePicker, Flex, Form, Input, PaginationProps, Radio, Row, Select, Space, Table } from "antd";
-import { Option } from "antd/es/mentions";
+import { Button, Checkbox, DatePicker, Flex, Form, Input, PaginationProps, Radio, Select, Space, Table } from "antd";
 import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector, useAppStore } from "../lib/hook";
-import { getUsers, increment, setUser, deleteRow, setEditIndex, setEditUser } from "../lib/features/users/usersSlice";
+import { UseAppDispatch, UseAppSelector } from "../lib/hook";
+import { getUsers, setUser, deleteRow, setEditIndex, setEditUser } from "../lib/features/users/usersSlice";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useTranslation } from "react-i18next";
 
 export default function page() {
-  const store = useAppStore()
-  const dispatch = useAppDispatch()
-  const { users, edit_index } = useAppSelector((state) => state.user)
+  // const store = useAppStore()
+  const dispatch = UseAppDispatch()
+  const { users, edit_index } = UseAppSelector((state) => state.user)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [userForm] = Form.useForm()
-  const { t, i18n, } = useTranslation('ns1')
+  const { t } = useTranslation('ns1')
   const dateFormat = 'YYYY-MM-DD'
   dayjs.extend(customParseFormat)
 
@@ -23,7 +22,7 @@ export default function page() {
       <path fill="#FFF" d="M0 85.334h512V426.66H0z" />
       <path fill="#0052B4" d="M0 194.056h512v123.882H0z" /><g fill="#D80027">
         <path d="M0 85.334h512v54.522H0zM0 372.143h512v54.522H0z" /></g>
-    </svg> +66
+    </svg>
   </div>
 
   const usa_flag = <div>
@@ -31,7 +30,7 @@ export default function page() {
       <path fill="#FFF" d="M0 0h513v342H0z" /><g fill="#D80027">
         <path d="M0 0h513v26.3H0zM0 52.6h513v26.3H0zM0 105.2h513v26.3H0zM0 157.8h513v26.3H0zM0 210.5h513v26.3H0zM0 263.1h513v26.3H0zM0 315.7h513V342H0z" /></g>
       <path fill="#2E52B2" d="M0 0h256.5v184.1H0z" /><g fill="#FFF"><path d="m47.8 138.9-4-12.8-4.4 12.8H26.2l10.7 7.7-4 12.8 10.9-7.9 10.6 7.9-4.1-12.8 10.9-7.7zM104.1 138.9l-4.1-12.8-4.2 12.8H82.6l10.7 7.7-4 12.8 10.7-7.9 10.8 7.9-4-12.8 10.7-7.7zM160.6 138.9l-4.3-12.8-4 12.8h-13.5l11 7.7-4.2 12.8 10.7-7.9 11 7.9-4.2-12.8 10.7-7.7zM216.8 138.9l-4-12.8-4.2 12.8h-13.3l10.8 7.7-4 12.8 10.7-7.9 10.8 7.9-4.3-12.8 11-7.7zM100 75.3l-4.2 12.8H82.6L93.3 96l-4 12.6 10.7-7.8 10.8 7.8-4-12.6 10.7-7.9h-13.4zM43.8 75.3l-4.4 12.8H26.2L36.9 96l-4 12.6 10.9-7.8 10.6 7.8L50.3 96l10.9-7.9H47.8zM156.3 75.3l-4 12.8h-13.5l11 7.9-4.2 12.6 10.7-7.8 11 7.8-4.2-12.6 10.7-7.9h-13.2zM212.8 75.3l-4.2 12.8h-13.3l10.8 7.9-4 12.6 10.7-7.8 10.8 7.8-4.3-12.6 11-7.9h-13.5zM43.8 24.7l-4.4 12.6H26.2l10.7 7.9-4 12.7L43.8 50l10.6 7.9-4.1-12.7 10.9-7.9H47.8zM100 24.7l-4.2 12.6H82.6l10.7 7.9-4 12.7L100 50l10.8 7.9-4-12.7 10.7-7.9h-13.4zM156.3 24.7l-4 12.6h-13.5l11 7.9-4.2 12.7 10.7-7.9 11 7.9-4.2-12.7 10.7-7.9h-13.2zM212.8 24.7l-4.2 12.6h-13.3l10.8 7.9-4 12.7 10.7-7.9 10.8 7.9-4.3-12.7 11-7.9h-13.5z" /></g>
-    </svg> +1
+    </svg>
   </div>
 
   const fr_flag = <div>
@@ -39,14 +38,18 @@ export default function page() {
       <path fill="#FFF" d="M0 0h513v342H0z" />
       <path fill="#0052B4" d="M0 0h171v342H0z" />
       <path fill="#D80027" d="M342 0h171v342H342z" />
-    </svg> +33
+    </svg>
   </div>
 
 
   useEffect(() => {
-    // console.log(localStorage.getItem('swd-user'));
     dispatch(getUsers())
   }, [dispatch])
+
+  function handleResetForm() {
+    userForm.resetFields()
+    dispatch(setEditIndex(-1))
+  }
 
   function handleSubmit(value: any): void {
     // console.log(edit_index);
@@ -54,7 +57,7 @@ export default function page() {
     value = { ...value, birthday: value['birthday'].format(dateFormat) }
     if (edit_index > -1) {
       // console.log(users.findIndex((user: any) => user.id === edit_index));
-      const id = users[users.findIndex((user: any) => user.id === edit_index)].id
+      const id = users[users.findIndex((user: any) => user.id === edit_index)]['id']
       value = { ...value, id: id }
       dispatch(setEditUser(value))
       alert(t('test2.label.edit_success'))
@@ -65,8 +68,32 @@ export default function page() {
       alert(t('test2.label.save_success'))
     }
     handleResetForm()
-    // console.log({ ...value, birthday: value['birthday'].format('YYYY-MM-DD') });
   }
+
+  function handleEdit(value: any): void {
+    // delete users[0]['birthday']
+    dispatch(setEditIndex(value.id))
+    // value = users[value.id]
+    // console.log(value);
+    userForm.setFieldsValue({ ...value, birthday: dayjs(value.birthday) })
+  }
+
+  function handleDeleteRow(value: any): void {
+    // console.log('delete row', value);
+    // console.log(selectedRowKeys.filter(key => key !== value.key).map(key_f => key_f > value.key ? key_f - 1 : key_f));
+    setSelectedRowKeys(selectedRowKeys.filter(key => key !== value.key).map(key_f => key_f > value.key ? key_f - 1 : key_f) as any)
+    dispatch(deleteRow(value))
+  }
+
+  function handleSelectAll(e: any): void {
+    if (e.target.checked) {
+      const arr = Array.from({ length: users.length }, (_, i) => i) as any
+      setSelectedRowKeys(arr)
+    } else {
+      setSelectedRowKeys([])
+    }
+  }
+
   function handleDelete(): void {
     selectedRowKeys.forEach(row_index => {
       // console.log(row_index)
@@ -75,26 +102,7 @@ export default function page() {
       setSelectedRowKeys([])
     })
   }
-  function handleEdit(value: any): void {
-    // delete users[0]['birthday']
-    dispatch(setEditIndex(value.id))
-    value = users[value.id]
-    console.log(value);
-    // console.log(
-    //   userForm.getFieldValue(['birthday'])
-    // );
-    userForm.setFieldsValue({ ...value, birthday: dayjs(value.birthday) })
-  }
-  function handleDeleteRow(value: any): void {
-    console.log('delete row', value);
-    // console.log(selectedRowKeys.filter(key => key !== value.key).map(key_f => key_f > value.key ? key_f - 1 : key_f));
-    setSelectedRowKeys(selectedRowKeys.filter(key => key !== value.key).map(key_f => key_f > value.key ? key_f - 1 : key_f) as any)
-    dispatch(deleteRow(value))
 
-  }
-  function handleResetForm() {
-    userForm.resetFields()
-  }
   function handleSelectTitle(value: any): void {
     try {
       let gender: any = null
@@ -109,7 +117,7 @@ export default function page() {
         default:
           break;
       }
-      userForm.setFieldsValue({ gender })
+      edit_index < 0 && userForm.setFieldsValue({ gender })
     } catch (error) {
       throw new Error("Function not implemented.")
     }
@@ -125,18 +133,9 @@ export default function page() {
         default:
           break;
       }
-      userForm.setFieldsValue({ title })
+      edit_index < 0 && userForm.setFieldsValue({ title })
     } catch (error) {
       throw new Error("Function not implemented.")
-    }
-  }
-
-  function handleSelectAll(e: any): void {
-    if (e.target.checked) {
-      const arr = Array.from({ length: users.length }, (_, i) => i) as any
-      setSelectedRowKeys(arr)
-    } else {
-      setSelectedRowKeys([])
     }
   }
 
@@ -156,7 +155,7 @@ export default function page() {
         default:
           break;
       }
-      userForm.setFieldsValue({ mobile_prefix })
+      edit_index < 0 && userForm.setFieldsValue({ mobile_prefix })
     } catch (error) {
       throw new Error("Function not implemented.");
     }
@@ -178,7 +177,7 @@ export default function page() {
         default:
           break;
       }
-      userForm.setFieldsValue({ nationality })
+      edit_index < 0 && userForm.setFieldsValue({ nationality })
     } catch (error) {
       throw new Error("Function not implemented.");
     }
@@ -194,7 +193,7 @@ export default function page() {
     },
     {
       title: t('test2.form_label.gender'),
-      dataIndex: 'gender',
+      dataIndex: 'gender_view',
       sorter: (a: any, b: any) => +(a.gender > b.gender) || -(a.gender < b.gender),
     },
     {
@@ -204,7 +203,7 @@ export default function page() {
     },
     {
       title: t('test2.form_label.nationality'),
-      dataIndex: 'nationality',
+      dataIndex: 'nationality_view',
       sorter: (a: any, b: any) => +(a.nationality > b.nationality) || -(a.nationality < b.nationality),
     },
     {
@@ -223,14 +222,14 @@ export default function page() {
   const dataSource = users.map((user: any, i: number) => ({
     ...user,
     name: `${user['firstname']} ${user['lastname']}`,
-    gender: t(`test2.form_label.${user['gender'].toLowerCase()}`),
+    gender_view: t(`test2.form_label.${user['gender'].toLowerCase()}`),
     mobile: `${user['mobile_prefix']} ${user['mobile_phone']}`,
-    nationality: t(`test2.form_label.${user['nationality'].toLowerCase()}`),
+    nationality_view: t(`test2.form_label.${user['nationality'].toLowerCase()}`),
     key: i
   }));
 
   const onSelectChange = (newSelectedRowKeys: any) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
@@ -248,14 +247,13 @@ export default function page() {
   };
   return (
     <div>
-
       <h1>{t('home.test2.description')}</h1>
       <div className="content">
-        <div style={{ paddingTop: '20px', border: '2px solid #2c3e50', borderRadius: '15px' }}>
+        <div className="border">
           <Form
             layout="horizontal"
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 16 }}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 14 }}
             form={userForm}
             onFinish={handleSubmit}
           // style={{ maxWidth: 600 }}
@@ -282,22 +280,25 @@ export default function page() {
             <Form.Item name="birthday" label={t('test2.form_label.birthday')} rules={[{ required: true }]}>
               <DatePicker
                 // picker="date"
-                minDate={dayjs('2019-08-01', dateFormat)}
-                maxDate={dayjs('2019-10-31', dateFormat)} format={dateFormat} placeholder={`${t('test2.form_label.year')}-${t('test2.form_label.month')}-${t('test2.form_label.day')}`} />
+                // minDate={dayjs('2019-08-01', dateFormat)}
+                maxDate={dayjs('2023-12-31', dateFormat)}
+                format={dateFormat}
+                placeholder={`${t('test2.form_label.year')}-${t('test2.form_label.month')}-${t('test2.form_label.day')}`}
+              />
             </Form.Item>
             <Form.Item name="nationality" label={t('test2.form_label.nationality')} rules={[{ required: true }]}>
               <Select
                 onChange={handleSelectNationality}
                 placeholder={`-- ${t('test2.form_label.please_select')} --`}
                 options={[
-                  { value: 'Thai', label: t('test2.form_label.thai') },
-                  { value: 'Franch', label: t('test2.form_label.franch') },
-                  { value: 'American', label: t('test2.form_label.american') },
+                  { value: 'Thai', label: <Flex gap={'small'}>{th_flag} {t('test2.form_label.thai')}</Flex> },
+                  { value: 'Franch', label: <Flex gap={'small'}>{fr_flag} {t('test2.form_label.franch')}</Flex> },
+                  { value: 'American', label: <Flex gap={'small'}>{usa_flag} {t('test2.form_label.american')}</Flex> },
                 ]}
               >
               </Select>
             </Form.Item>
-            <Form.Item name="citizen_id" label={t('test2.form_label.citizen_id')}>
+            <Form.Item name="citizen_id" label={t('test2.form_label.citizen_id')} >
               <Input />
             </Form.Item>
             <Form.Item name="gender" label={t('test2.form_label.gender')} rules={[{ required: true }]}>
@@ -307,17 +308,16 @@ export default function page() {
                 <Radio value="Unsex">{t('test2.form_label.unsex')}</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item name="mobile_phone" label={t('test2.form_label.mobile_phone')} rules={[{ required: true, message: 'Please input your phone number!' }]} >
+            <Form.Item name="mobile_phone" label={t('test2.form_label.mobile_phone')} rules={[{ required: true, message: 'Please input your phone number!', pattern: new RegExp(/^[0-9]*$/) }]} >
               <Input addonBefore={
                 <Form.Item name="mobile_prefix" noStyle>
                   <Select
                     onChange={handleSelectMobilephonePrefix}
-                    style={{ width: '100px' }}
-
+                    style={{ width: '100px', backgroundColor: 'white', borderRadius: '5px' }}
                     options={[
-                      { value: '+66', label: th_flag },
-                      { value: '+1', label: usa_flag },
-                      { value: '+33', label: fr_flag },
+                      { value: '+66', label: <Flex gap={'small'}>{th_flag} +66</Flex> },
+                      { value: '+1', label: <Flex gap={'small'}>{usa_flag} +1</Flex> },
+                      { value: '+33', label: <Flex gap={'small'}>{fr_flag} +33</Flex> },
                     ]}
                   >
                   </Select>

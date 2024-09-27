@@ -1,14 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './features/users/usersSlice'
 
-// const reHydrateStore = () => {
-//   if (typeof window !== 'undefined') {
-//     if (localStorage.getItem('count') !== null) {
-//       return localStorage.getItem('count'); // re-hydrate the store
-//     }
-//   }
-// };
-
 export const makeStore = () => {
   return configureStore({
     reducer: {

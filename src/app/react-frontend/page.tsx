@@ -100,8 +100,8 @@ export default function page() {
                 {
                   shapes.filter((_, f_index) => index === 0 ? f_index <= 2 : f_index > 2).map((shape, index) => (
                     <Col key={index} span={6}>
-                      <Card hoverable className='hover'>
-                        <div id={shape} className='center' onClick={handleRandomShape}></div>
+                      <Card hoverable className='hover' onClick={handleRandomShape}>
+                        <div id={shape} className='center'></div>
                       </Card>
                     </Col>
                   ))
