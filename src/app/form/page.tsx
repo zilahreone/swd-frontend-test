@@ -68,11 +68,15 @@ export default function page() {
   function handleSubmit(value: any): void {
     // console.log(edit_index);
     // console.log(value);
+    value = { ...value, birthday: value['birthday'].format(dateFormat) }
     if (edit_index > -1) {
+      // console.log(users.findIndex((user: any) => user.id === edit_index));
+      const id = users[users.findIndex((user: any) => user.id === edit_index)].id
+      value = { ...value, id: id }
       dispatch(setEditUser(value))
     } else {
       const id = users.length > 0 ? users[users.length - 1]['id'] + 1 : 0
-      value = { ...value, id: id, birthday: value['birthday'].format(dateFormat) }
+      value = { ...value, id: id }
       dispatch(setUser(value))
     }
     // console.log({ ...value, birthday: value['birthday'].format('YYYY-MM-DD') });
@@ -379,10 +383,10 @@ export default function page() {
           <Table pagination={{ position: ['topRight'], itemRender: itemRender }} rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
         </Flex>
       </div>
+      { edit_index }
       <pre>
         {JSON.stringify(users, null, 4)}
       </pre>
-      { edit_index }
       {/* <button onClick={() => handleTEST()}>TEST</button> */}
     </div >
   )

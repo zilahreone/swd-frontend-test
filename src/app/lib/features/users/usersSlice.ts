@@ -44,6 +44,7 @@ const userSlice = createSlice({
       state.edit_index = action.payload
     },
     setEditUser: (state, action) => {
+      // console.log(action.payload);
       let users = JSON.parse(JSON.stringify(state.users))
       // console.log(users);
       users = users.map((user: any) => user.id === state.edit_index ? action.payload : user)
