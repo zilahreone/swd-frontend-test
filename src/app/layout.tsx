@@ -1,3 +1,6 @@
+// "use client";
+// 'use strict'
+// import './i18n';
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -29,7 +32,7 @@ export default function RootLayout({
   // }
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.className}`}>
         <StoreProvider>
           {children}
         </StoreProvider>

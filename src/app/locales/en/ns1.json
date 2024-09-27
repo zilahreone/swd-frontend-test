@@ -1,0 +1,65 @@
+{
+  "home": {
+    "test1": {
+      "title": "Test 1",
+      "description": "Layout & Style"
+    },
+    "test2": {
+      "title": "Test 2",
+      "description": "Form & Table"
+    }
+  },
+  "test1": {
+    "control_label": {
+      "move_shape": "Move Shape",
+      "move_position": "Move Shape"
+    }
+  },
+  "test2": {
+    "form_label": {
+      "title": "Title",
+      "mr": "Mr",
+      "mrs": "Mrs",
+      "ms": "Ms",
+      "firstname": "Firstname",
+      "lastname": "Lastname",
+      "birthday": "Birthday",
+      "year": "Year",
+      "month": "Month",
+      "day": "Day",
+      "nationality": "Nationality",
+      "please_select": "Please Select",
+      "thai": "Thai",
+      "franch": "Franch",
+      "american": "American",
+      "citizen_id": "CitizenID",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "unsex": "Unsex",
+      "mobile_phone": "Mobile Phone",
+      "passport_no": "Passport No",
+      "expected_salary": "Expected Salary"
+    },
+    "label": {
+      "select_all": "Select All",
+      "save_success": "Save Success",
+      "edit_success": "Edit Success"
+    },
+    "button": {
+      "home": "Home",
+      "reset": "RESET",
+      "submit": "SUBMIT",
+      "prev": "PREV",
+      "next": "NEXT",
+      "edit": "EDIT",
+      "delete": "DELETE"
+    },
+    "table": {
+      "column": {
+        "name": "Name",
+        "manage": "MANAGE"
+      }
+    }
+  }
+}

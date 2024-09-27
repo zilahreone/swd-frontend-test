@@ -6,27 +6,15 @@ import { useAppDispatch, useAppSelector, useAppStore } from "../lib/hook";
 import { getUsers, increment, setUser, deleteRow, setEditIndex, setEditUser } from "../lib/features/users/usersSlice";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-
+import { useTranslation } from "react-i18next";
 
 export default function page() {
   const store = useAppStore()
   const dispatch = useAppDispatch()
   const { users, edit_index } = useAppSelector((state) => state.user)
-
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [userForm] = Form.useForm()
-  // const [userForm, setUserForm] = useState({
-  //   title: null,
-  //   firstname: null,
-  //   lastname: null,
-  //   birthday: null,
-  //   nationality: null,
-  //   citizen_id: null,
-  //   gender: null,
-  //   mobile_phone: null,
-  //   passport_no: null,
-  //   expected_salary: null
-  // })
+  const { t, i18n, } = useTranslation('ns1')
   const dateFormat = 'YYYY-MM-DD'
   dayjs.extend(customParseFormat)
 
@@ -60,11 +48,6 @@ export default function page() {
     dispatch(getUsers())
   }, [dispatch])
 
-  function handleTEST(): void {
-    console.log(
-      users[users.length - 1]['id']
-    );
-  }
   function handleSubmit(value: any): void {
     // console.log(edit_index);
     // console.log(value);
@@ -74,30 +57,33 @@ export default function page() {
       const id = users[users.findIndex((user: any) => user.id === edit_index)].id
       value = { ...value, id: id }
       dispatch(setEditUser(value))
+      alert(t('test2.label.edit_success'))
     } else {
       const id = users.length > 0 ? users[users.length - 1]['id'] + 1 : 0
       value = { ...value, id: id }
       dispatch(setUser(value))
+      alert(t('test2.label.save_success'))
     }
+    handleResetForm()
     // console.log({ ...value, birthday: value['birthday'].format('YYYY-MM-DD') });
   }
   function handleDelete(): void {
     selectedRowKeys.forEach(row_index => {
-      console.log(row_index)
-      console.log(users[row_index])
+      // console.log(row_index)
+      // console.log(users[row_index])
       dispatch(deleteRow(users[row_index]))
       setSelectedRowKeys([])
     })
-    // dispatch(deleteSelect(users[row_index]))
   }
   function handleEdit(value: any): void {
     // delete users[0]['birthday']
-    console.log(value);
     dispatch(setEditIndex(value.id))
+    value = users[value.id]
+    console.log(value);
     // console.log(
     //   userForm.getFieldValue(['birthday'])
     // );
-    userForm.setFieldsValue({...value, birthday: dayjs(value.birthday)})
+    userForm.setFieldsValue({ ...value, birthday: dayjs(value.birthday) })
   }
   function handleDeleteRow(value: any): void {
     console.log('delete row', value);
@@ -197,36 +183,37 @@ export default function page() {
       throw new Error("Function not implemented.");
     }
   }
+
   const columns = [
     {
-      title: 'Name',
+      title: t('test2.table.column.name'),
       dataIndex: 'name',
       // sorter: (a: any, b: any) => a.name.length - b.name.length,
       sorter: (a: any, b: any) => +(a.name > b.name) || -(a.name < b.name),
       // sortDirections: ['descend'],
     },
     {
-      title: 'Gender',
+      title: t('test2.form_label.gender'),
       dataIndex: 'gender',
       sorter: (a: any, b: any) => +(a.gender > b.gender) || -(a.gender < b.gender),
     },
     {
-      title: 'Mobile Phone',
+      title: t('test2.form_label.mobile_phone'),
       dataIndex: 'mobile',
       sorter: (a: any, b: any) => +(a.mobile > b.mobile) || -(a.mobile < b.mobile),
     },
     {
-      title: 'Nationality',
+      title: t('test2.form_label.nationality'),
       dataIndex: 'nationality',
       sorter: (a: any, b: any) => +(a.nationality > b.nationality) || -(a.nationality < b.nationality),
     },
     {
-      title: 'MANAGE',
+      title: t('test2.table.column.manage'),
       dataIndex: 'manage',
       render: (_: any, record: any) => (
         <Space size="middle">
-          <a onClick={() => handleEdit(record)}>EDIT</a>
-          <a onClick={() => handleDeleteRow(record)}>DELETE</a>
+          <a onClick={() => handleEdit(record)}>{t('test2.button.edit')}</a>
+          <a onClick={() => handleDeleteRow(record)}>{t('test2.button.delete')}</a>
         </Space>
 
       ),
@@ -236,7 +223,9 @@ export default function page() {
   const dataSource = users.map((user: any, i: number) => ({
     ...user,
     name: `${user['firstname']} ${user['lastname']}`,
+    gender: t(`test2.form_label.${user['gender'].toLowerCase()}`),
     mobile: `${user['mobile_prefix']} ${user['mobile_phone']}`,
+    nationality: t(`test2.form_label.${user['nationality'].toLowerCase()}`),
     key: i
   }));
 
@@ -250,144 +239,133 @@ export default function page() {
   };
   const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
     if (type === 'prev') {
-      return <a>PREV</a>;
+      return <a>{t('test2.button.prev')}</a>;
     }
     if (type === 'next') {
-      return <a>NEXT</a>;
+      return <a>{t('test2.button.next')}</a>;
     }
     return originalElement;
   };
   return (
-    <div className="content">
-      {/* <pre>
-        {JSON.stringify(userForm, null, 4)}
-      </pre> */}
-      <div style={{ margin: '100px', backgroundColor: 'yellow' }}>
-        <Form
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 24 }}
-          // {...layout}
-          form={userForm}
-          // name="control-hooks"
-          onFinish={handleSubmit}
-          style={{ maxWidth: 600 }}
-        >
-          {/* <Form.Item name="firstname" label="Firstname" rules={[{ required: true }]}>
-            <Row gutter={2}>
-              <Col span={12}>
-                    <Input />
-              </Col>
-              <Col span={12}>
-                    <Input />
-              </Col>
-            </Row>
-          </Form.Item>
-          <Form.Item layout="horizontal" name="firstname" label="Firstname" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item> */}
-          <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-            <Select
-              onChange={handleSelectTitle}
-              placeholder="Title"
-              // onChange={onGenderChange}
-              
-              options={[
-                { value: 'Mr.', label: 'Mr.' },
-                { value: 'Mrs.', label: 'Mrs.' },
-                { value: 'Ms.', label: 'Ms.' },
-              ]}
-            >
-            </Select>
-          </Form.Item>
-          <Form.Item name="firstname" label="Firstname" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="lastname" label="Lastname" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          {/* getValueProps={(i) => ({ value: dayjs(i) })} */}
-          <Form.Item name="birthday" label="Birthday" rules={[{ required: true, message: 'Please input!' }]}>
-            <DatePicker
-              // picker="date"
-              minDate={dayjs('2019-08-01', dateFormat)}
-              maxDate={dayjs('2019-10-31', dateFormat)}  format={dateFormat} placeholder={dateFormat} />
-          </Form.Item>
-          <Form.Item name="nationality" label="Nationality" rules={[{ required: true }]}>
-            <Select
-              onChange={handleSelectNationality}
-              placeholder="-- Please Select --"
-              options={[
-                { value: 'Thai', label: 'Thai' },
-                { value: 'Franch', label: 'Franch' },
-                { value: 'American', label: 'American' },
-              ]}
-            >
-            </Select>
-          </Form.Item>
-          <Form.Item name="citizen_id" label="CitizenID" hasFeedback validateStatus="success">
-            <Input />
-          </Form.Item>
-          <Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
-            <Radio.Group onChange={(e) => handleSelectGender(e.target.value)}>
-              <Radio value="Male">Male</Radio>
-              <Radio value="Female">Female</Radio>
-              <Radio value="Unsex">Unsex</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item label="Mobile Phone" name="mobile_phone" rules={[{ required: true, message: 'Please input your phone number!' }]} >
-            <Input addonBefore={
-              <Form.Item name="mobile_prefix" noStyle>
-                <Select
-                  onChange={handleSelectMobilephonePrefix}
-                  style={{ width: '100px' }}
-                  
-                  options={[
-                    { value: '+66', label: th_flag },
-                    { value: '+1', label: usa_flag },
-                    { value: '+33', label: fr_flag },
-                  ]}
-                >
-                </Select>
-              </Form.Item>} style={{ width: '100%' }} />
-          </Form.Item>
-          <Form.Item name="passport_no" label="Passport No">
-            <Input />
-          </Form.Item>
-          <Form.Item name="expected_salary" label="Expected Salary" rules={[{ required: true, message: 'Please input your positive number!', pattern: new RegExp(/^[+]?\d+([.]\d+)?$/) }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                SUBMIT
-              </Button>
-              <Button htmlType="button" onClick={handleResetForm}>
-                RESET
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </div>
-      <div>
-        <Flex gap={users.length > 0 ? 0 : 'middle'} vertical>
-          <Flex gap={'middle'} align="center">
-            <div>
-              <Checkbox disabled={users.length === 0} checked={users.length > 0 && users.length === selectedRowKeys.length} onChange={handleSelectAll}>Select All</Checkbox>
-            </div>
-            <div>
-              <Button onClick={handleDelete} disabled={selectedRowKeys.length === 0} type="primary" danger size={'middle'}>
-                DELETE
-              </Button>
-            </div>
+    <div>
+
+      <h1>{t('home.test2.description')}</h1>
+      <div className="content">
+        <div style={{ paddingTop: '20px', border: '2px solid #2c3e50', borderRadius: '15px' }}>
+          <Form
+            layout="horizontal"
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 16 }}
+            form={userForm}
+            onFinish={handleSubmit}
+          // style={{ maxWidth: 600 }}
+          >
+            <Form.Item name="title" label={t('test2.form_label.title')} rules={[{ required: true }]}>
+              <Select
+                onChange={handleSelectTitle}
+                placeholder={t('test2.form_label.title')}
+                options={[
+                  { value: 'Mr.', label: `${t('test2.form_label.mr')}.` },
+                  { value: 'Mrs.', label: `${t('test2.form_label.mrs')}.` },
+                  { value: 'Ms.', label: `${t('test2.form_label.ms')}.` },
+                ]}
+              >
+              </Select>
+            </Form.Item>
+            <Form.Item name="firstname" label={t('test2.form_label.firstname')} rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item name="lastname" label={t('test2.form_label.lastname')} rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+            {/* getValueProps={(i) => ({ value: dayjs(i) })} */}
+            <Form.Item name="birthday" label={t('test2.form_label.birthday')} rules={[{ required: true }]}>
+              <DatePicker
+                // picker="date"
+                minDate={dayjs('2019-08-01', dateFormat)}
+                maxDate={dayjs('2019-10-31', dateFormat)} format={dateFormat} placeholder={`${t('test2.form_label.year')}-${t('test2.form_label.month')}-${t('test2.form_label.day')}`} />
+            </Form.Item>
+            <Form.Item name="nationality" label={t('test2.form_label.nationality')} rules={[{ required: true }]}>
+              <Select
+                onChange={handleSelectNationality}
+                placeholder={`-- ${t('test2.form_label.please_select')} --`}
+                options={[
+                  { value: 'Thai', label: t('test2.form_label.thai') },
+                  { value: 'Franch', label: t('test2.form_label.franch') },
+                  { value: 'American', label: t('test2.form_label.american') },
+                ]}
+              >
+              </Select>
+            </Form.Item>
+            <Form.Item name="citizen_id" label={t('test2.form_label.citizen_id')}>
+              <Input />
+            </Form.Item>
+            <Form.Item name="gender" label={t('test2.form_label.gender')} rules={[{ required: true }]}>
+              <Radio.Group onChange={(e) => handleSelectGender(e.target.value)}>
+                <Radio value="Male">{t('test2.form_label.male')}</Radio>
+                <Radio value="Female">{t('test2.form_label.female')}</Radio>
+                <Radio value="Unsex">{t('test2.form_label.unsex')}</Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item name="mobile_phone" label={t('test2.form_label.mobile_phone')} rules={[{ required: true, message: 'Please input your phone number!' }]} >
+              <Input addonBefore={
+                <Form.Item name="mobile_prefix" noStyle>
+                  <Select
+                    onChange={handleSelectMobilephonePrefix}
+                    style={{ width: '100px' }}
+
+                    options={[
+                      { value: '+66', label: th_flag },
+                      { value: '+1', label: usa_flag },
+                      { value: '+33', label: fr_flag },
+                    ]}
+                  >
+                  </Select>
+                </Form.Item>} style={{ width: '100%' }} />
+            </Form.Item>
+            <Form.Item name="passport_no" label={t('test2.form_label.passport_no')}>
+              <Input />
+            </Form.Item>
+            <Form.Item name="expected_salary" label={t('test2.form_label.expected_salary')} rules={[{ required: true, message: 'Please input your positive number!', pattern: new RegExp(/^[+]?\d+([.]\d+)?$/) }]}>
+              <Input />
+            </Form.Item>
+            <Flex gap={'middle'} justify="center">
+              <Form.Item>
+                <Space>
+                  <Button type="primary" htmlType="submit">
+                    {t('test2.button.submit')}
+                  </Button>
+                  <Button type="primary" danger htmlType="button" onClick={handleResetForm}>
+                    {t('test2.button.reset')}
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Flex>
+          </Form>
+        </div>
+        <br />
+        <div>
+          <Flex gap={users.length > 0 ? 0 : 'middle'} vertical>
+            <Flex gap={'middle'} align="center">
+              <div>
+                <Checkbox disabled={users.length === 0} checked={users.length > 0 && users.length === selectedRowKeys.length} onChange={handleSelectAll}>{t('test2.label.select_all')}</Checkbox>
+              </div>
+              <div>
+                <Button onClick={handleDelete} disabled={selectedRowKeys.length === 0} type="primary" danger size={'middle'}>
+                  {t('test2.button.delete')}
+                </Button>
+              </div>
+            </Flex>
+            <Table pagination={{ position: ['topRight'], itemRender: itemRender }} rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
           </Flex>
-          <Table pagination={{ position: ['topRight'], itemRender: itemRender }} rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
-        </Flex>
-      </div>
-      { edit_index }
-      <pre>
-        {JSON.stringify(users, null, 4)}
-      </pre>
-      {/* <button onClick={() => handleTEST()}>TEST</button> */}
-    </div >
+        </div>
+        {/* <div>
+          {edit_index}
+          <pre>
+            {JSON.stringify(users, null, 4)}
+          </pre>
+        </div> */}
+      </div >
+    </div>
   )
 }

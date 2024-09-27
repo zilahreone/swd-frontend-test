@@ -1,9 +1,10 @@
 "use client";
 import { Badge, Card, Col, Divider, Flex, Row } from 'antd';
 import { useState } from 'react'
-import Navbar from '../components/Navbar';
+import { useTranslation } from 'react-i18next';
 
 export default function page() {
+  const { t } = useTranslation('ns1');
   const [count, setCount] = useState(0)
   const [shapes, setShapes] = useState([
     'square',
@@ -51,8 +52,7 @@ export default function page() {
 
   return (
     <div>
-      <h2>Layout & Style</h2>
-      <Navbar />
+      <h1>{t('home.test1.description')}</h1>
       <div className='content'>
         {/* <Flex gap="middle" align="center" vertical>
           <div>sdsdsd</div>
@@ -63,7 +63,7 @@ export default function page() {
               <div id='triangle-left' className='center'></div>
               <Badge
                 className="absolute"
-                count={78}
+                count={t('test1.control_label.move_shape')}
                 style={{ backgroundColor: '#6EDA78', boxShadow: '0 0 0px'}}
               />
             </Card>
@@ -76,7 +76,7 @@ export default function page() {
               </Flex>
               <Badge
                 className="absolute"
-                count={78}
+                count={t('test1.control_label.move_position')}
                 style={{ backgroundColor: '#6EDA78', boxShadow: '0 0 0px'}}
               />
             </Card>
@@ -86,7 +86,7 @@ export default function page() {
               <div id='triangle-right' className='center'></div>
               <Badge
                 className="absolute"
-                count={78}
+                count={t('test1.control_label.move_shape')}
                 style={{ backgroundColor: '#6EDA78', boxShadow: '0 0 0px'}}
               />
             </Card>

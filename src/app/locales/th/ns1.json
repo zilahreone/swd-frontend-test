@@ -1,0 +1,65 @@
+{
+  "home": {
+    "test1": {
+      "title": "แบบทดสอบที่ 1",
+      "description": "การจัดการหน้าเว็บ"
+    },
+    "test2": {
+      "title": "แบบทดสอบที่ 2",
+      "description": "การจัดการหน้าฟอร์ม"
+    }
+  },
+  "test1": {
+    "control_label": {
+      "move_shape": "เลื่อนรูปแบบ",
+      "move_position": "เปลี่ยนตำแหน่ง"
+    }
+  },
+  "test2": {
+    "form_label": {
+      "title": "คำนำหน้าชื่อ",
+      "mr": "นาย",
+      "mrs": "นาง",
+      "ms": "นางสาว",
+      "firstname": "ชื่อจริง",
+      "lastname": "นามสกุล",
+      "birthday": "วันเกิด",
+      "year": "ปี",
+      "month": "เดือน",
+      "day": "วัน",
+      "nationality": "สัญชาติ",
+      "please_select": "กรุณาเลือก",
+      "thai": "ไทย",
+      "franch": "ฝรั่งเศษ",
+      "american": "อเมริกา",
+      "citizen_id": "เลขบัตรประชาชน",
+      "gender": "เพศ",
+      "male": "ผู้ชาย",
+      "female": "ผู้หญิง",
+      "unsex": "ไม่ระบุ",
+      "mobile_phone": "หมายเลขโทรศัพท์มือถือ",
+      "passport_no": "หมายเลขหนังสือเดินทาง",
+      "expected_salary": "เงินเดือนที่คาดหวัง"
+    },
+    "label": {
+      "select_all": "เลือกทั้งหมด",
+      "save_success": "บันทึกสำเร็จ",
+      "edit_success": "แก้ไขสำเร็จ"
+    },
+    "button": {
+      "home": "หน้าหลัก",
+      "reset": "ล้างข้อมูล",
+      "submit": "ส่งข้อมูล",
+      "prev": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "edit": "แก้ไขข้อมูล",
+      "delete": "ลบข้อมูล"
+    },
+    "table": {
+      "column": {
+        "name": "ชื่อ",
+        "manage": "จัดการ"
+      }
+    }
+  }
+}
